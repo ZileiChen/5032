@@ -37,7 +37,12 @@
       </ul>
 
       <h3>Finding in Arrays</h3>
-      <p>Finding by property: {{ orwell?.name }}</p>
+      <p>
+        Finding by property:
+        <span :class="{ highlight: isHighlighted }">
+          {{ orwell?.name }}
+        </span>
+      </p>
 
       <h3>Nested Arrays/Objects</h3>
       <p>{{ austen?.name }}'s works:</p>
@@ -55,11 +60,7 @@
       <p>Our <code>bookstores.json</code> is a JSON object.</p>
 
       <h3>Accessing Properties</h3>
-      <p>
-        Company:
-        <!-- Activity 9a: Get the company name from the bookstores object. -->
-        <!-- TODO: CODE TO GET COMPANY NAME HERE -->
-      </p>
+      <p>Company: {{ companyName }}</p>
 
       <p>
         Total Stores:
@@ -97,6 +98,12 @@
     <section class="lab-section">
       <h2>Attribute, Class and Style Binding with <code>v-bind</code></h2>
       <p>Highlighting Specific Authors:</p>
+      <button @click="isHighlighted = !isHighlighted">Toggle highlight</button>
+      <p>
+        <span :class="{ highlight: isHighlighted }"
+          >This text is highlighted green using class binding.</span
+        >
+      </p>
     </section>
   </div>
 </template>
@@ -110,6 +117,7 @@ import authors from '../assets/json/authors.json'
 import bookstores from '../assets/json/bookstores.json'
 
 const showMessage = ref(false)
+const isHighlighted = ref(false)
 
 // Activity 2: Get authors born after 1850
 const modernAuthors = computed(() => {
