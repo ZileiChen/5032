@@ -22,6 +22,22 @@
             >Firebase Sign-Up</router-link
           >
         </li>
+        <li class="nav-item">
+          <router-link to="/addbook" class="nav-link" active-class="active">Add Book</router-link>
+        </li>
+        <li class="nav-item">
+          <router-link to="/getbookcount" class="nav-link" active-class="active"
+            >Get Book Count</router-link
+          >
+        </li>
+        <li class="nav-item">
+          <router-link to="/weather" class="nav-link" active-class="active">Weather</router-link>
+        </li>
+        <li class="nav-item">
+          <router-link to="/CountBookAPI" class="nav-link" active-class="active"
+            >Count Book API</router-link
+          >
+        </li>
       </ul>
     </header>
   </div>
