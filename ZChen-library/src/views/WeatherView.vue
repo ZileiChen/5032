@@ -20,7 +20,6 @@
 
 <script>
 import axios from 'axios'
-const apikey = '9748feee6613fccc5b21ee36679252f1'
 
 export default {
   name: 'App',
@@ -36,10 +35,21 @@ export default {
     temperature() {
       return this.weatherData ? Math.floor(this.weatherData.main.temp - 273) : null
     },
+    useHttps() {
+      try {
+        return (
+          import.meta.env.VITE_ENVIRONMENT === 'production' ||
+          (typeof location !== 'undefined' && location.protocol === 'https:')
+        )
+      } catch {
+        return import.meta.env.VITE_ENVIRONMENT === 'production'
+      }
+    },
     iconUrl() {
-      return this.weatherData
-        ? `http://api.openweathermap.org/img/w/${this.weatherData.weather[0].icon}.png`
-        : null
+      if (!this.weatherData) return null
+      const protocol = this.useHttps ? 'https' : 'http'
+      // Use the newer icon path and include @2x for better resolution
+      return `${protocol}://openweathermap.org/img/wn/${this.weatherData.weather[0].icon}@2x.png`
     },
   },
   mounted() {
@@ -50,10 +60,18 @@ export default {
       if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(async (position) => {
           const { latitude, longitude } = position.coords
-          const url = `http://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&appid=${apikey}`
+          const protocol = this.useHttps ? 'https' : 'http'
+          const url = `${protocol}://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&appid=${import.meta.env.VITE_API_KEY}`
           await this.fetchWeatherData(url)
         })
       }
+    },
+    async searchByCity() {
+      if (!this.city || !this.city.trim()) return
+      const protocol = this.useHttps ? 'https' : 'http'
+      const q = encodeURIComponent(this.city.trim())
+      const url = `${protocol}://api.openweathermap.org/data/2.5/weather?q=${q}&appid=${import.meta.env.VITE_API_KEY}`
+      await this.fetchWeatherData(url)
     },
     async fetchWeatherData(url) {
       try {
