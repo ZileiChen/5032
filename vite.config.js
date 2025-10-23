@@ -5,7 +5,7 @@ import vueDevTools from 'vite-plugin-vue-devtools'
 
 // https://vite.dev/config/
 export default defineConfig(({ mode }) => ({
-  base: mode === 'production' ? '/5032/' : '/',
+  base: "5032",
   plugins: [vue(), vueDevTools()],
   resolve: {
     alias: {
