@@ -17,6 +17,7 @@ export default {
 }
 </script>
 
+
 <template>
   <header v-if="showHeader"><Header /></header>
 
